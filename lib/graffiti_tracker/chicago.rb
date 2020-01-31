@@ -1,15 +1,17 @@
 require_relative './removal_request.rb'
 require_relative './alderman.rb'
 require_relative './report.rb'
+require 'http'
 
 module GraffitiTracker
   class Chicago
-    attr_accessor :month, :year, :search_name, :report
+    attr_accessor :month, :year, :search_name, :report, :graffiti_location
 
-    def initialize(search_name, month, year)
-      @search_name = search_name
-      @month       = month
-      @year        = year
+    def initialize(options)
+      @search_name       = options[:search_name]
+      @month             = options[:month]
+      @year              = options[:year]
+      @graffiti_location = options[:graffiti_location]
     end
 
     def search_alderman
@@ -39,8 +41,8 @@ module GraffitiTracker
       end
     end
 
-    def search_requests(ward_number)
-      response = HTTP.get("https://data.cityofchicago.org/resource/hec5-y4x5.json?ward=#{ward_number}&creation_date=#{year}-#{month}-05T00:00:00.000")
+    def search_requests(ward_number)      
+      response = HTTP.get("https://data.cityofchicago.org/resource/hec5-y4x5.json?ward=#{ward_number}#{creation_query}#{graffiti_location_query}")
       case response.code
       when 200
         results_array = []
@@ -74,9 +76,24 @@ module GraffitiTracker
         puts "No report generated"
       end
     end
+
+    private
+
+    def creation_query
+      if month && year
+        "&creation_date=#{year}-#{month}-05T00:00:00.000"
+      end
+    end
+
+    def graffiti_location_query
+      if graffiti_location
+        "&where_is_the_graffiti_located_=#{graffiti_location}"
+      end
+    end
+
   end
 end
 
-gt = GraffitiTracker::Chicago.new("Walker", 12, 2014)
+gt = GraffitiTracker::Chicago.new(search_name: "Moore", month: 05, year: 2012, graffiti_location: "Alley")
 gt.build_report
 gt.display_report
