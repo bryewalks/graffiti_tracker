@@ -19,21 +19,21 @@ module GraffitiTracker
       response = HTTP.get("https://data.cityofchicago.org/resource/htai-wnw4.json?$where=alderman%20like%20%27%25#{alderman_name}%25%27")
       case response.code
       when 200
-        searched = response.parse
+        search_results = response.parse
         option = 0
-        if searched.length == 0
+        if search_results.length == 0
           puts "Could not find alderman with last name #{search_name}"
         else
-          if searched.length > 1
+          if search_results.length > 1
             puts "Which alderman are you looking for?"
-            searched.each_with_index do |resp, index|
-              puts "#{index + 1}.#{resp["alderman"]}"
+            search_results.each_with_index do |search_result, index|
+              puts "#{index + 1}.#{search_result["alderman"]}"
             end
             option = gets.chomp.to_i - 1
           end
           Alderman.new(
-                        name: searched[option]["alderman"],
-                        ward_number: searched[option]["ward"]
+                        name: search_results[option]["alderman"],
+                        ward_number: search_results[option]["ward"]
                       )
         end
       when 400
