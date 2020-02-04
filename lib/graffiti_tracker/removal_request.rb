@@ -1,9 +1,11 @@
 module GraffitiTracker
   class RemovalRequest
-    attr_accessor :date
+    attr_accessor :creation_date, :completion_date, :street_address
 
     def initialize(options)
-      @date = options[:date]
+      @creation_date = options[:creation_date]
+      @completion_date = options[:completion_date]
+      @street_address = options[:street_address]
     end
   end
 end

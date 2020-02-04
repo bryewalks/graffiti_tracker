@@ -46,7 +46,11 @@ module GraffitiTracker
         results_array = []
         removal_requests = response.parse
         removal_requests.each do |removal_request|
-          results_array << RemovalRequest.new(date: removal_request["creation_date"])
+          results_array << RemovalRequest.new(
+                                              creation_date: removal_request["creation_date"],
+                                              completion_date: removal_request["completion_date"],
+                                              street_address: removal_request["street_address"]
+                                              )
         end
         results_array
       when 400
@@ -71,5 +75,5 @@ end
 
 # p GraffitiTracker::Chicago.search_removal_requests(47, 05, 2018)
 # p GraffitiTracker::Chicago.search_alderman("Moore")
-report = GraffitiTracker::Chicago.generate_report("Walker", 11, 1926)
+report = GraffitiTracker::Chicago.generate_report("Moore", 12, 2017)
 report.display
