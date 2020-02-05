@@ -21,5 +21,16 @@ module GraffitiTracker
         expect(removal_request.street_address).to eq("123 main st")
       end
     end
+
+    describe "#completed?" do
+      let(:removal_request) {RemovalRequest.new(
+                                                creation_date: "2014-05-08T00:00:00.000",
+                                                completion_date: "2018-05-08T00:00:00.000",
+                                                street_address: "123 main st"
+                                              )}
+      it "returns true if completed" do
+        expect(removal_request.completed?).to eq(true)
+      end
+    end
   end
 end

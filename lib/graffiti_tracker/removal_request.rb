@@ -7,5 +7,9 @@ module GraffitiTracker
       @completion_date = options[:completion_date]
       @street_address = options[:street_address]
     end
+
+    def completed? 
+      true if completion_date
+    end
   end
 end

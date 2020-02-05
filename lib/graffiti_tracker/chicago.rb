@@ -75,5 +75,5 @@ end
 
 # p GraffitiTracker::Chicago.search_removal_requests(47, 05, 2018)
 # p GraffitiTracker::Chicago.search_alderman("Moore")
-report = GraffitiTracker::Chicago.generate_report("Moore", 12, 2017)
-report.display
+# report = GraffitiTracker::Chicago.generate_report("Moore", 12, 2017)
+# report.display
