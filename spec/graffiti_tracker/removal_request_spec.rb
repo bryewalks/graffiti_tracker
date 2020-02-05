@@ -23,13 +23,25 @@ module GraffitiTracker
     end
 
     describe "#completed?" do
-      let(:removal_request) {RemovalRequest.new(
-                                                creation_date: "2014-05-08T00:00:00.000",
-                                                completion_date: "2018-05-08T00:00:00.000",
-                                                street_address: "123 main st"
-                                              )}
-      it "returns true if completed" do
-        expect(removal_request.completed?).to eq(true)
+      context "when completed" do
+        let(:removal_request) {RemovalRequest.new(
+                                                  creation_date: "2014-05-08T00:00:00.000",
+                                                  completion_date: "2018-05-08T00:00:00.000",
+                                                  street_address: "123 main st"
+                                                )}
+        it "returns true" do
+          expect(removal_request.completed?).to eq(true)
+        end
+      end
+
+      context "when not completed" do
+        let(:removal_request) {RemovalRequest.new(
+                                                  creation_date: "2014-05-08T00:00:00.000",
+                                                  street_address: "123 main st"
+                                                )}
+        it "returns false" do
+          expect(removal_request.completed?).to eq(false)
+        end
       end
     end
   end

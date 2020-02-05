@@ -9,7 +9,7 @@ module GraffitiTracker
     end
 
     def completed? 
-      true if completion_date
+      completion_date ? true : false
     end
   end
 end
